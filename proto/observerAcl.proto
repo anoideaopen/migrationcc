@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package proto;
+
+message ObserverAclRow {
+  string number = 1;
+  string time = 2;
+  string tx_id = 3;
+  string address = 4;
+  string account_info = 5;
+  string pk = 6;
+}
+
+message ObserverAclData {
+  repeated ObserverAclRow rows = 1;
+}

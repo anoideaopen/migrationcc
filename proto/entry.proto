@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package proto;
+
+message Entry {
+  string key  = 1;
+  bytes value = 2;
+}
+
+message Entries {
+  string bookmark        = 1;
+  repeated Entry entries = 2;
+}

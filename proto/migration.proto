@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package proto;
+
+message MigrationInfo {
+  uint64 block_number = 1;
+  bytes block_hash = 2;
+  bytes block_data_hash = 3;
+}
+
+message MigrationRule {
+  bytes migrationUserSKI = 1;
+  string migrationMspID = 2;
+}
