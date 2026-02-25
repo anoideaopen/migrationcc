@@ -1,5 +1,3 @@
 package proto
 
-//go:generate protoc -I=. --go_out=. entry.proto
-//go:generate protoc -I=. --go_out=. migration.proto
-//go:generate protoc -I=. --go_out=. observerAcl.proto
+//go:generate protoc -I=. --go_out=paths=source_relative:. entry.proto
