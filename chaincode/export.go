@@ -43,7 +43,7 @@ func (cc *MigrationContract) ExportChunkKV(ctx contractapi.TransactionContextInt
 // Note that only the bookmark present in a prior page of query results (ResponseMetadata)
 // can be used as a value to the bookmark argument. Otherwise, an empty string must
 // be passed as bookmark.
-// isComposit - return simple keys or composit keys
+// isComposit - return simple keys or composite keys
 func getKVPairs(stub shim.ChaincodeStubInterface, pageSize int32, bookmark string, isComposit bool) (*proto.Entries, error) {
 	if pageSize < 0 {
 		return nil, errors.New("pageSize need to be positive number")
