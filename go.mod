@@ -9,7 +9,7 @@ require (
 	github.com/hyperledger/fabric-contract-api-go v1.1.1
 	github.com/hyperledger/fabric-protos-go v0.0.0-20220827195505-ce4c067a561d
 	github.com/stretchr/testify v1.8.0
-	google.golang.org/protobuf v1.28.1
+	google.golang.org/protobuf v1.33.0
 )
 
 replace github.com/hyperledger/fabric-chaincode-go => github.com/scientificideas/fabric-chaincode-go v0.0.0-20221010114645-63470279a8e2
