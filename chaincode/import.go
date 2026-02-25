@@ -33,8 +33,9 @@ func (cc *MigrationContract) ImportChunkKV(ctx contractapi.TransactionContextInt
 		}
 	}
 
-	hash := ComputeHash(entriesBytes)
-	err = ctx.GetStub().SetEvent(ImportChunkKvEvent, []byte(hash))
+	hash := computeHash(entriesBytes)
+	fname := string(ctx.GetStub().GetArgs()[0])
+	err = ctx.GetStub().SetEvent(fname, []byte(hash))
 	if err != nil {
 		return fmt.Errorf("couldn't set event: %w", err)
 	}

@@ -6,8 +6,6 @@
   - [Test cases](#test-cases)
     - [Preconditions](#preconditions)
     - [Migration tool](#migration-tool)
-    - [Validation tool](#validation-tool)
-    - [Observer](#observer)
   - [License](#license)
   - [Links](#links)
 
@@ -29,69 +27,14 @@
 ### Migration tool
 
 * Verification migration on sandbox
-  1. expand sandbox 1.4
+  1. expand fabric old
   2. run test scripts/migration_test.go
     * save manually PublicKey, PrivateKey, Address in base58 format for all users
   3. do a migration
-  4. expand new sandbox 2.4
+  4. expand fabric new
   5. run scripts/migration_back_test.go
 
 Expected result: all transactions completed successfully
-
-
-* Verification migration on stand
-  1. expand stand 1.4
-  2. do more 200 transactions
-  3. do a migration
-  4. expand new stand 2.4
-
-Expected result: hashes from 1.4 equal 2.4
-
-
-* Verification migration on stand with script
-  1. expand stand 1.4
-  2. run test scripts/migration_test.go
-    * save manually PublicKey, PrivateKey, Address in base58 format for all users
-  3. do a migration
-  4. expand new stand 2.4
-  5. run scripts/migration_back_test.go
-
-Expected result: all transactions completed successfully
-
-
-### Validation tool
-
-* Check Validation tool
-  1. expand sandbox 1.4
-  2. do some transactions
-  3. run validation tool on hlf 1.4 (import transactions)
-  4. do a migration 
-  5. run validation tool on hlf 2.4 (export transactions)
-  6. run validation tool for compare hashes from 1.4 and 2.4
-
-Expected result: hashes from 1.4 equal 2.4
-
-
-* Check comparison
-  1. expand sandbox 1.4
-  2. do some transactions
-  3. run validation tool on hlf 1.4
-  4. do a migration (export and import different transactions)
-  5. run validation tool on hlf 2.4
-  6. run validation tool for compare hashes from 1.4 and 2.4
-
-Expected result: hashes from 1.4 not equal 2.4
-
-
-### Observer
-
-* Verification migration observer on stand
-  1. expand stand 1.4
-  2. take ch-dev base and integrate it into the stand 1.4
-  3. do a migration
-  4. expand new stand 2.4 with migration chain codes
-
-Expected result: base on 2.4 contains hlf state from 1.4 (acl, user's balances)
 
 
 ## License

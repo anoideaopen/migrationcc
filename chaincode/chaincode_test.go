@@ -1,5 +1,7 @@
 package chaincode
 
+import "github.com/hyperledger/fabric-chaincode-go/v2/shim"
+
 // import (
 // 	"crypto/ecdsa"
 // 	"crypto/elliptic"
@@ -21,7 +23,18 @@ package chaincode
 // 	"github.com/hyperledger/fabric-protos-go-apiv2/peer"
 // 	"github.com/stretchr/testify/assert"
 // )
-//
+
+//go:generate counterfeiter -generate
+//counterfeiter:generate -o mock/chaincode_stub.go --fake-name ChaincodeStub . chaincodeStub
+type chaincodeStub interface { //nolint:unused
+	shim.ChaincodeStubInterface
+}
+
+//counterfeiter:generate -o mock/state_iterator.go --fake-name StateIterator . stateIterator
+type stateIterator interface { //nolint:unused
+	shim.StateQueryIteratorInterface
+}
+
 // const (
 // 	adminMSP              = "adminMSP"
 // 	adminCert             = "-----BEGIN CERTIFICATE-----\nMIICSDCCAe6gAwIBAgIQAJwYy5PJAYSC1i0UgVN5bjAKBggqhkjOPQQDAjCBhzEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xIzAhBgNVBAoTGmF0b215emUudWF0LmRsdC5hdG9teXplLmNoMSYw\nJAYDVQQDEx1jYS5hdG9teXplLnVhdC5kbHQuYXRvbXl6ZS5jaDAeFw0yMDEwMTMw\nODU2MDBaFw0zMDEwMTEwODU2MDBaMHUxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpD\nYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMQ4wDAYDVQQLEwVhZG1p\nbjEpMCcGA1UEAwwgQWRtaW5AYXRvbXl6ZS51YXQuZGx0LmF0b215emUuY2gwWTAT\nBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQGQX9IhgjCtd3mYZ9DUszmUgvubepVMPD5\nFlwjCglB2SiWuE2rT/T5tHJsU/Y9ZXFtOOpy/g9tQ/0wxDWwpkbro00wSzAOBgNV\nHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADArBgNVHSMEJDAigCBSv0ueZaB3qWu/\nAwOtbOjaLd68woAqAklfKKhfu10K+DAKBggqhkjOPQQDAgNIADBFAiEAoKRQLe4U\nFfAAwQs3RCWpevOPq+J8T4KEsYvswKjzfJYCIAs2kOmN/AsVUF63unXJY0k9ktfD\nfAaqNRaboY1Yg1iQ\n-----END CERTIFICATE-----"
@@ -77,8 +90,8 @@ package chaincode
 // 	resp := invokeExportChunkKV(t, mockStubExportCC)
 //
 // 	var allChunkHash string
-// 	allChunkHash += utils.ComputeHash(resp.Payload)
-// 	hash := utils.ComputeHash([]byte(allChunkHash))
+// 	allChunkHash += utils.computeHash(resp.Payload)
+// 	hash := utils.computeHash([]byte(allChunkHash))
 //
 // 	res1ExportEnd := invokeExportEnd(t, mockStubExportCC)
 // 	res2ExportEnd := invokeExportEnd(t, mockStubExportCC)
@@ -105,7 +118,7 @@ package chaincode
 // 	if string(eventExportEnd1.Payload) != string(eventExportEnd2.Payload) {
 // 		assert.Fail(t, "event after repeat 'exportEnd' not equals")
 // 	}
-// 	if string(eventExportEnd1.Payload) != utils.ComputeHash(eventExportChunkKV.Payload) {
+// 	if string(eventExportEnd1.Payload) != utils.computeHash(eventExportChunkKV.Payload) {
 // 		assert.Fail(t, "event ")
 // 	}
 // }
