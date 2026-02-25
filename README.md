@@ -1,5 +1,14 @@
 # migrationcc
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/anoideaopen/migrationcc)](https://goreportcard.com/report/github.com/anoideaopen/migrationcc)
+[![Go Reference](https://pkg.go.dev/badge/github.com/anoideaopen/migrationcc.svg)](https://pkg.go.dev/github.com/anoideaopen/migrationcc)
+![GitHub License](https://img.shields.io/github/license/anoideaopen/migrationcc)
+
+[![Go](https://github.com/anoideaopen/migrationcc/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/anoideaopen/migrationcc/actions/workflows/go.yml)
+[![Security vulnerability scan](https://github.com/anoideaopen/migrationcc/actions/workflows/vulnerability-scan.yml/badge.svg?branch=main)](https://github.com/anoideaopen/migrationcc/actions/workflows/vulnerability-scan.yml)
+![GitHub go.mod Go version (branch)](https://img.shields.io/github/go-mod/go-version/anoideaopen/migrationcc/main)
+![GitHub Tag](https://img.shields.io/github/v/tag/anoideaopen/migrationcc)
+
 Chaincode for migration from old to new hlf
 
 ## TOC
