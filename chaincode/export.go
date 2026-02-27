@@ -80,10 +80,6 @@ func getKVPairs(stub shim.ChaincodeStubInterface, pageSize int32, bookmark strin
 		})
 	}
 
-	if len(entries.GetEntries()) == 0 {
-		return nil, errors.New("not found kv pairs")
-	}
-
 	if metadata != nil {
 		entries.Bookmark = metadata.GetBookmark()
 	}

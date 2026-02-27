@@ -11,6 +11,8 @@ import (
 
 // ImportChunkKV add a set of keys and values to the state and write the hash to the chaincode event
 func (cc *MigrationContract) ImportChunkKV(ctx contractapi.TransactionContextInterface, entriesStr string) error {
+	ctx.GetStub().StartWriteBatch()
+
 	if len(entriesStr) == 0 {
 		return errors.New("arg entries can't be empty")
 	}
