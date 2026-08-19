@@ -7,7 +7,7 @@ require (
 	github.com/hyperledger/fabric-contract-api-go/v2 v2.2.2
 	github.com/hyperledger/fabric-protos-go-apiv2 v0.3.7
 	github.com/stretchr/testify v1.11.1
-	google.golang.org/protobuf v1.36.11
+	google.golang.org/protobuf v1.36.12
 )
 
 require (
