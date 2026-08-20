@@ -5,6 +5,7 @@ import (
 
 	"github.com/anoideaopen/migrationcc/chaincode/mock"
 	"github.com/anoideaopen/migrationcc/proto"
+	"github.com/go-openapi/testify/v2/require"
 	"github.com/hyperledger/fabric-chaincode-go/v2/shim"
 	"github.com/hyperledger/fabric-contract-api-go/v2/contractapi"
 	"github.com/hyperledger/fabric-protos-go-apiv2/ledger/queryresult"
@@ -32,16 +33,17 @@ const (
 	testPageSizeArg   = "20"
 	testSimpleKeys    = "false"
 	testCompositeKeys = "true"
+	testkey1          = "key1"
 )
 
 // TestMigrationExportNonComposite test migration function export with mock stub
 func TestMigrationExportNonComposite(t *testing.T) {
 	migrationContract := MigrationContract{}
-	var interfaces []contractapi.ContractInterface
+	interfaces := make([]contractapi.ContractInterface, 0, 1)
 	interfaces = append(interfaces, &migrationContract)
 
 	exportCC, err := contractapi.NewChaincode(interfaces...)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	mockStub := new(mock.ChaincodeStub)
 	mockStub.GetFunctionAndParametersReturns(exportChunkKVMethodName, []string{testPageSizeArg, bookmark, testSimpleKeys})
 	mockStub.GetArgsReturns([][]byte{[]byte(exportChunkKVMethodName), []byte(testPageSizeArg), []byte(bookmark), []byte(testSimpleKeys)})
@@ -50,7 +52,7 @@ func TestMigrationExportNonComposite(t *testing.T) {
 	fakeIterator.HasNextReturnsOnCall(0, true)
 	fakeIterator.HasNextReturnsOnCall(1, false)
 	fakeIterator.NextReturns(&queryresult.KV{
-		Key:   "key1",
+		Key:   testkey1,
 		Value: []byte("value1"),
 	}, nil)
 	mockStub.GetStateByRangeWithPaginationReturns(fakeIterator, &peer.QueryResponseMetadata{
@@ -62,10 +64,10 @@ func TestMigrationExportNonComposite(t *testing.T) {
 
 	entries := proto.Entries{}
 	err = pb.Unmarshal(resp.GetPayload(), &entries)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	pb.Equal(&entries, &proto.Entries{
 		Entries: []*proto.Entry{
-			{Key: "key1", Value: []byte("value1")},
+			{Key: testkey1, Value: []byte("value1")},
 		},
 	})
 	assert.Equal(t, 1, mockStub.SetEventCallCount())
@@ -76,17 +78,17 @@ func TestMigrationExportNonComposite(t *testing.T) {
 // TestMigrationExportComposite test migration function export with mock stub
 func TestMigrationExportComposite(t *testing.T) {
 	migrationContract := MigrationContract{}
-	var interfaces []contractapi.ContractInterface
+	interfaces := make([]contractapi.ContractInterface, 0, 1)
 	interfaces = append(interfaces, &migrationContract)
 
 	exportCC, err := contractapi.NewChaincode(interfaces...)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	mockStub := new(mock.ChaincodeStub)
 	mockStub.GetFunctionAndParametersReturns(exportChunkKVMethodName, []string{testPageSizeArg, bookmark, testCompositeKeys})
 	mockStub.GetArgsReturns([][]byte{[]byte(exportChunkKVMethodName), []byte(testPageSizeArg), []byte(bookmark), []byte(testCompositeKeys)})
 
-	key, err := shim.CreateCompositeKey("type1", []string{"key1"})
-	assert.NoError(t, err)
+	key, err := shim.CreateCompositeKey("type1", []string{testkey1})
+	require.NoError(t, err)
 	fakeIterator := &mock.StateIterator{}
 	fakeIterator.HasNextReturnsOnCall(0, true)
 	fakeIterator.HasNextReturnsOnCall(1, false)
@@ -103,7 +105,7 @@ func TestMigrationExportComposite(t *testing.T) {
 
 	entries := proto.Entries{}
 	err = pb.Unmarshal(resp.GetPayload(), &entries)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	pb.Equal(&entries, &proto.Entries{
 		Entries: []*proto.Entry{
 			{Key: key, Value: []byte("value1")},
@@ -117,30 +119,30 @@ func TestMigrationExportComposite(t *testing.T) {
 // TestMigrationImport test migration function import with mock stub
 func TestMigrationImport(t *testing.T) {
 	migrationContract := MigrationContract{}
-	var interfaces []contractapi.ContractInterface
+	interfaces := make([]contractapi.ContractInterface, 0, 1)
 	interfaces = append(interfaces, &migrationContract)
 
 	importCC, err := contractapi.NewChaincode(interfaces...)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	mockStub := new(mock.ChaincodeStub)
 	key, err := shim.CreateCompositeKey("type1", []string{"key2"})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	entries := &proto.Entries{
 		Entries: []*proto.Entry{
-			{Key: "key1", Value: []byte("value1")},
+			{Key: testkey1, Value: []byte("value1")},
 			{Key: key, Value: []byte("value2")},
 		},
 	}
 	entriesBites, err := pb.Marshal(entries)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	mockStub.GetFunctionAndParametersReturns(importChunkKVMethodName, []string{string(entriesBites)})
 	mockStub.GetArgsReturns([][]byte{[]byte(importChunkKVMethodName), entriesBites})
 
 	resp := importCC.Invoke(mockStub)
-	assert.Len(t, resp.GetPayload(), 0)
+	assert.Empty(t, resp.GetPayload())
 	assert.Equal(t, 2, mockStub.PutStateCallCount())
 	k, v := mockStub.PutStateArgsForCall(0)
-	assert.Equal(t, "key1", k)
+	assert.Equal(t, testkey1, k)
 	assert.Equal(t, []byte("value1"), v)
 	k, v = mockStub.PutStateArgsForCall(1)
 	assert.Equal(t, key, k)
