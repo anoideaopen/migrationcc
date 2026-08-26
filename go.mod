@@ -3,7 +3,7 @@ module github.com/anoideaopen/migrationcc
 go 1.27.0
 
 require (
-	github.com/go-openapi/testify/v2 v2.6.0
+	github.com/go-openapi/testify/v2 v2.6.1
 	github.com/hyperledger/fabric-chaincode-go/v2 v2.3.1-0.20260319210430-56968fdc7833
 	github.com/hyperledger/fabric-contract-api-go/v2 v2.2.2
 	github.com/hyperledger/fabric-protos-go-apiv2 v0.3.7
